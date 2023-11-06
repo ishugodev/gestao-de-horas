@@ -1,3 +1,10 @@
+# Gestão de Horas
+
+This is a time manager made in the Be Dev Lab course.\
+**This project is still in progress.**
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
