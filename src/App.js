@@ -64,6 +64,13 @@ const Line = styled.div`
     pointer-events: none;
     position: absolute;
     top: 0;
+
+    &.active {
+      width: auto;
+      height: auto;
+      top: -10px;
+      background: transparent;
+    }
   }
   
   .horarios {
@@ -71,7 +78,7 @@ const Line = styled.div`
     gap: 20px;
   }
   
-  .horario:hover label {
+  .horario:hover label:not(.active) {
     opacity: 0;
   }
   
@@ -126,7 +133,7 @@ const defaultLines = [
 
 const App = () => {
   const [linhas, setLinhas] = useState(defaultLines)
-  
+
   const ClicouParaAddLinha = () => {
     const novaLinhas = [
       ...linhas,
@@ -157,9 +164,35 @@ const App = () => {
   const alterarDia = (valor, index) => {
     const novaLinhas = linhas.map((linha, indexLinha) => {
       if (indexLinha === index) {
-        return{
+        return {
           ...linha,
           dia: valor
+        }
+      }
+
+      return linha
+    })
+
+    setLinhas(novaLinhas)
+  }
+
+  const alterarHora = (valor, indexL, indexH, type) => {
+    const novaLinhas = linhas.map((linha, indexLinha) => {
+      if (indexL === indexLinha) {
+        const horarios = linha.horarios.map((horario, indexHorario) => {
+          if (indexHorario === indexH) {
+            return {
+              ...horario,
+              [type]: valor
+            }
+          }
+
+          return horario
+        })
+
+        return {
+          ...linha,
+          horarios: horarios
         }
       }
 
@@ -193,7 +226,7 @@ const App = () => {
                   <div>
                     :
                   </div>
-      
+
                   {
                     linha.horarios.map((hora, indexHora) => {
                       return (
@@ -203,22 +236,41 @@ const App = () => {
                               |
                             </div>
 
-                          ) : false}  
+                          ) : false}
 
                           <div className='horarios'>
                             <div className='horario'>
-                              <label htmlFor={indexHora + 'entrada'}>
+                              <label
+                                htmlFor={indexHora + 'entrada'}
+                                className={hora.entrada !== '00:00' ? 'active' : ''}
+                              >
                                 Entrada
                               </label>
-                              <input type={indexHora + 'entrada'} defaultValue={hora.entrada} id={indexHora + 'entrada'} name={indexHora + 'entrada'} />
+                              <input
+                                type="time"
+                                defaultValue={hora.entrada}
+                                id={indexHora + 'entrada'}
+                                name={indexHora + 'entrada'}
+                                onChange={(evento) => alterarHora(evento.target.value, indexLinha, indexHora, 'entrada')}
+                              />
                             </div>
+
                             <div className='horario'>
-                              <label htmlFor={indexHora + 'saida'}>
+                              <label
+                                htmlFor={indexHora + 'saida'}
+                                className={hora.saida !== '00:00' ? 'active' : ''}
+                              >
                                 Saída
                               </label>
-                              <input type={indexHora + 'saida'} defaultValue={hora.saida} id={indexHora + 'saida'} name={indexHora + 'saida'} />
+                              <input
+                                type="time"
+                                defaultValue={hora.saida}
+                                id={indexHora + 'saida'}
+                                name={indexHora + 'saida'}
+                                onChange={(evento) => alterarHora(evento.target.value, indexLinha, indexHora, 'saida')}
+                              />
                             </div>
-                          </div>    
+                          </div>
                         </Fragment>
                       )
                     })
@@ -230,9 +282,9 @@ const App = () => {
                   >
                     +
                   </div>
-      
+
                 </Line>
-                
+
               )
             })
           }
