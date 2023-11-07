@@ -103,15 +103,30 @@ const AddDia = styled.div`
     `
 
 const Days = styled.div`
-    padding: 30px;
-    min-height: 500px;
-    background: #FFFFFF;
-    border-radius: 5px;
-    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.15);
-    overflow: auto;
-    
-    `
+  padding: 30px;
+  min-height: 500px;
+  background: #FFFFFF;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  overflow: auto;
+  position: relative;
+  padding-bottom: 105px; 
+`
 
+const ContagemFinal = styled.div`
+  width: 100%;
+  height: 80px;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-around;
+  align-items: center;
+  background: #EEEEEE;
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+`
 
 const today = new Date().toISOString().slice(0, 10);
 const defaultHour = {
@@ -292,6 +307,18 @@ const App = () => {
           <AddDia onClick={() => ClicouParaAddLinha()}>
             + Adiciona data
           </AddDia>
+          <ContagemFinal>
+            <div>
+              Dias trabalhados: { linhas.length }
+            </div>
+            <div>
+              Quantidade de horas:
+            </div>
+            <input placeholder='Valor da hora' type="text" />
+            <div>
+              Valores a receber: R$
+            </div>
+          </ContagemFinal>
         </Days>
       </Content>
     </>
