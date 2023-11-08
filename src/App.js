@@ -394,7 +394,11 @@ const App = () => {
             <div>
               Quantidade de horas: { quantidadeHorasMinutos }
             </div>
-            <input placeholder='Valor da hora' />
+            <input
+              placeholder='Valor da hora'
+              value={valorHora !== null || valorHora !== undefined ? valorHora : ''}h
+              onChange={(evento) => setValorHora(evento.target.value)}
+            />
             <div>
               Valores a receber: R$ { (quantidadeHoras() * valorHora).toFixed(2) }
             </div>
