@@ -396,7 +396,7 @@ const App = () => {
             </div>
             <input
               placeholder='Valor da hora'
-              value={valorHora !== null || valorHora !== undefined ? valorHora : ''}h
+              value={valorHora !== null || valorHora !== undefined ? valorHora : ''}
               onChange={(evento) => setValorHora(evento.target.value)}
             />
             <div>
