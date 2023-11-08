@@ -86,7 +86,7 @@ const Line = styled.div`
     cursor: pointer;
   }
   
-  `
+`
 
 const AddDia = styled.div`
     cursor: pointer;
@@ -127,6 +127,35 @@ const ContagemFinal = styled.div`
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 
+  div#valorHora {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  label {
+    display: flex;
+    width: 200px;
+    height: 45px;
+    border: 0;
+    padding: 0 10px;
+    text-align: center;
+    pointer-events: none;
+    position: absolute;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+    
+    &.active {
+      color: #000000;
+    }
+
+    &:not(.active) {
+      color: transparent;
+    }
+  }
+
   input {
     width: 190px;
     background: #FFFFFF;
@@ -135,7 +164,6 @@ const ContagemFinal = styled.div`
     border-radius: 5px;
     padding: 0 10px;
     text-align: center;
-    
   }
 
   input::placeholder {
@@ -391,17 +419,32 @@ const App = () => {
             <div>
               Dias trabalhados: { linhas.length }
             </div>
+
             <div>
               Quantidade de horas: { quantidadeHorasMinutos }
             </div>
-            <input
-              placeholder='Valor da hora'
-              value={valorHora !== null || valorHora !== undefined ? valorHora : ''}
-              onChange={(evento) => setValorHora(evento.target.value)}
-            />
+
+            <div id='valorHora'>
+              <label
+                htmlFor='idValorHora'
+                className={valorHora > 0 ? 'active' : ''}
+              >
+                <div>R$</div>
+                <div>/ h</div>
+              </label>
+
+              <input
+                placeholder='Valor da hora'
+                id='idValorHora'
+                value={valorHora}
+                onChange={(evento) => setValorHora(evento.target.value)}
+              />
+            </div>
+
             <div>
               Valores a receber: R$ { (quantidadeHoras() * valorHora).toFixed(2) }
             </div>
+            
           </ContagemFinal>
         </Days>
       </Content>
