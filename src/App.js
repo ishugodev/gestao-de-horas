@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import logoImg from './assets/img/logo.png'
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 
 const SideBar = styled.div`
@@ -126,6 +126,21 @@ const ContagemFinal = styled.div`
   background: #EEEEEE;
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+
+  input {
+    width: 190px;
+    background: #FFFFFF;
+    border: 0;
+    height: 45px;
+    border-radius: 5px;
+    padding: 0 10px;
+    text-align: center;
+    
+  }
+
+  input::placeholder {
+    color: #000000;
+  }
 `
 
 const today = new Date().toISOString().slice(0, 10);
@@ -148,6 +163,7 @@ const defaultLines = [
 
 const App = () => {
   const [linhas, setLinhas] = useState(defaultLines)
+  const [valorHora, setValorHora] = useState(100)
 
   const ClicouParaAddLinha = () => {
     const novaLinhas = [
@@ -229,7 +245,7 @@ const App = () => {
     return totalMinutos
   }
 
-  const quantidadeHoras = () => {
+  const quantidadeHorasMinutos = useMemo(() => {
     let qtdMinutos = 0
 
     linhas.forEach((linha) => {
@@ -254,20 +270,32 @@ const App = () => {
 
     const renderizarMinutos = () => {
       const minutosRenderizados = Math.round((horaCalculada - horas)* 60)
-    
       return minutosRenderizados
     }
 
     const minutos = renderizarMinutos()
 
-    console.log(horas, minutos)
-
     return (`${horas}h ${minutos}min`)
-  }
-
-  useEffect(() => {
-    quantidadeHoras()
   }, [linhas])
+
+  const quantidadeHoras = () => {
+    let qtdMinutos = 0
+
+    linhas.forEach((linha) => {
+      linha.horarios.forEach((horario) => {
+          if (horario.entrada !== '00:00' && horario.saida !== '00:00') {
+            const minutos = retornaQuantidadeMinutos(horario.entrada, horario.saida)
+
+            qtdMinutos = qtdMinutos + minutos
+            return qtdMinutos
+          }
+      })
+    })
+
+    const horaCalculada = qtdMinutos / 60
+
+    return horaCalculada
+  }
 
   return (
     <>
@@ -364,11 +392,11 @@ const App = () => {
               Dias trabalhados: { linhas.length }
             </div>
             <div>
-              Quantidade de horas: { quantidadeHoras() }
+              Quantidade de horas: { quantidadeHorasMinutos }
             </div>
-            <input placeholder='Valor da hora' type="text" />
+            <input placeholder='Valor da hora' />
             <div>
-              Valores a receber: R$
+              Valores a receber: R$ { (quantidadeHoras() * valorHora).toFixed(2) }
             </div>
           </ContagemFinal>
         </Days>
