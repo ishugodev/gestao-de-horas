@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import logoImg from './assets/img/logo.png'
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 
 const SideBar = styled.div`
@@ -217,6 +217,58 @@ const App = () => {
     setLinhas(novaLinhas)
   }
 
+  const retornaQuantidadeMinutos = (horaioEntrada, horarioSaida) => {
+    const entradaSeparada = horaioEntrada.split(':')
+    const saidaSeparada = horarioSaida.split(':')
+
+    const diferencaHora = saidaSeparada[0] - entradaSeparada[0]
+    const diferencaMinutos = saidaSeparada[1] - entradaSeparada[1]
+
+    const totalMinutos = diferencaHora * 60 + diferencaMinutos
+
+    return totalMinutos
+  }
+
+  const quantidadeHoras = () => {
+    let qtdMinutos = 0
+
+    linhas.forEach((linha) => {
+      linha.horarios.forEach((horario) => {
+          if (horario.entrada !== '00:00' && horario.saida !== '00:00') {
+            const minutos = retornaQuantidadeMinutos(horario.entrada, horario.saida)
+
+            qtdMinutos = qtdMinutos + minutos
+            return qtdMinutos
+          }
+      })
+    })
+
+    const horaCalculada = qtdMinutos / 60
+
+    const getNotDecimal = (numero) => {
+      const notDecimalString = numero.toString().split('.')[0]
+      return Number(notDecimalString)
+    }
+
+    const horas = getNotDecimal(horaCalculada)
+
+    const renderizarMinutos = () => {
+      const minutosRenderizados = Math.round((horaCalculada - horas)* 60)
+    
+      return minutosRenderizados
+    }
+
+    const minutos = renderizarMinutos()
+
+    console.log(horas, minutos)
+
+    return (`${horas}h ${minutos}min`)
+  }
+
+  useEffect(() => {
+    quantidadeHoras()
+  }, [linhas])
+
   return (
     <>
       <SideBar>
@@ -312,7 +364,7 @@ const App = () => {
               Dias trabalhados: { linhas.length }
             </div>
             <div>
-              Quantidade de horas:
+              Quantidade de horas: { quantidadeHoras() }
             </div>
             <input placeholder='Valor da hora' type="text" />
             <div>
