@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import logoImg from './assets/img/logo.png'
-import { Fragment, useEffect, useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 
 
 const SideBar = styled.div`
@@ -11,12 +11,12 @@ const SideBar = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  `
+`
 
 const Content = styled.div`
   padding: 30px 30px 30px calc(260px + 30px);
 
-  `
+`
 
 const Title = styled.div`
   padding: 0;
@@ -24,7 +24,7 @@ const Title = styled.div`
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: bold;
-  `
+`
 
 const Line = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ const Line = styled.div`
     border: 0;
     height: 45px;
     border-radius: 5px;
-    padding: 0 10px;
+    padding: 0 10px 0 20px;
     text-align: center;
     
     &[type=date] {
@@ -67,9 +67,12 @@ const Line = styled.div`
 
     &.active {
       width: auto;
-      height: auto;
-      top: -10px;
-      background: transparent;
+      height: 35px;
+      top: 5px;
+      left: 5px;
+      font-size: 15px;
+      background: #FFFFFF;
+      
     }
   }
   
@@ -89,18 +92,18 @@ const Line = styled.div`
 `
 
 const AddDia = styled.div`
-    cursor: pointer;
-    display: flex;
-    font-size: 14px;
-    margin-top: 20px;
-    width: 60%;
-    align-items: center;
-    background: #EEEEEE;
-    border: 0;
-    height: 45px;
-    border-radius: 5px;
-    padding: 0 10px;
-    `
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  margin-top: 20px;
+  width: 60%;
+  align-items: center;
+  background: #EEEEEE;
+  border: 0;
+  height: 45px;
+  border-radius: 5px;
+  padding: 0 10px;
+`
 
 const Days = styled.div`
   padding: 30px;
@@ -126,6 +129,8 @@ const ContagemFinal = styled.div`
   background: #EEEEEE;
   box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  font-size: 18px;
+  font-weight: 400;
 
   div#valorHora {
     display: flex;
@@ -136,16 +141,17 @@ const ContagemFinal = styled.div`
 
   label {
     display: flex;
-    width: 200px;
+    width: 180px;
     height: 45px;
     border: 0;
-    padding: 0 10px;
+    padding: 0 10px 3px 10px;
     text-align: center;
     pointer-events: none;
     position: absolute;
     justify-content: space-between;
     align-items: center;
     z-index: 1;
+    
     
     &.active {
       color: #000000;
@@ -164,6 +170,7 @@ const ContagemFinal = styled.div`
     border-radius: 5px;
     padding: 0 10px;
     text-align: center;
+    font-size: 17px;
   }
 
   input::placeholder {
@@ -436,7 +443,7 @@ const App = () => {
               <input
                 placeholder='Valor da hora'
                 id='idValorHora'
-                value={valorHora}
+                value={ valorHora }
                 onChange={(evento) => setValorHora(evento.target.value)}
               />
             </div>
